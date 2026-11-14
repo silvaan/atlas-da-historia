@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020308">
+  <title>History Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23020308%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229.5%22 fill=%22none%22 stroke=%22%237CC4F0%22 stroke-width=%222%22/%3E%3Cpath d=%22M9 19 Q16 6 23 13%22 fill=%22none%22 stroke=%22%23F2B544%22 stroke-width=%222.2%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%229%22 cy=%2219%22 r=%222.4%22 fill=%22%23F2B544%22/%3E%3Ccircle cx=%2223%22 cy=%2213%22 r=%222.4%22 fill=%22%23F2B544%22/%3E%3C/svg%3E">
+  <meta name="description" content="The history of Brazil and the world as a network: a globe where every event links to other places and other times.">
+</head>
+<body>
+  <main id="map" aria-label="World map"></main>
+  <div id="labels" aria-hidden="true"></div>
+  <div id="net"></div>
+  <div id="vlabels" aria-hidden="true"></div>
+  <div id="guide-layer" hidden></div>
+  <div id="scene-layer" hidden></div>
+  <div id="loading"><div class="ld-logo"></div><span>Building the world…</span></div>
+
+  <header class="panel side" id="side">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="10.5" fill="none" stroke="#7CC4F0" stroke-width="1.6" opacity=".9"/><ellipse cx="16" cy="16" rx="4.6" ry="10.5" fill="none" stroke="#7CC4F0" stroke-width="1" opacity=".45"/><path d="M8.6 19.4 Q16 4.5 23.6 12.6" fill="none" stroke="#F2B544" stroke-width="2" stroke-linecap="round"/><circle cx="8.6" cy="19.4" r="2.3" fill="#F2B544"/><circle cx="23.6" cy="12.6" r="2.3" fill="#F2B544"/></svg>
+      <div class="wordmark"><h1>History <em>Atlas</em></h1><div class="tagline">history as a network</div></div>
+      <select id="mode" aria-label="View"></select>
+    </div>
+    <section class="chapter" aria-live="polite">
+      <div id="ch-kicker" class="ch-kicker"></div>
+      <h2 id="ch-title" class="ch-title"></h2>
+      <div class="ch-now"><span id="era-year" class="era-year"></span><span id="era-kicker" class="era-kicker"></span></div>
+      <p id="era-caption" class="era-caption"></p>
+      <div class="ch-list-h" id="ch-list-h">In this chapter</div>
+      <ol id="ch-events" class="ch-events"></ol>
+      <div class="ch-nav"><button id="ch-prev"></button><button id="ch-next"></button></div>
+    </section>
+    <details id="states" class="states"><summary>States on this map <b id="states-n"></b></summary><div id="era-empires" class="chips"></div></details>
+    <div id="kinds" class="kinds" aria-label="Event types (click to filter)"></div>
+  </header>
+
+  <nav class="panel tools" aria-label="View controls">
+    <button id="search-btn" class="search-btn" title="Search (/ or Ctrl+K)">⌕ <span>Search</span><kbd>/</kbd></button>
+    <div id="views" class="seg"></div>
+    <div id="rotate" class="seg small" hidden>
+      <button id="rot-l" title="Rotate (Q)">⟲</button><button id="rot-r" title="Rotate (E)">⟳</button>
+    </div>
+    <div class="seg small">
+      <button id="zoom-out" title="Zoom out (−)">−</button><button id="home" title="Show everything">◎</button><button id="zoom-in" title="Zoom in (+)">+</button>
+    </div>
+  </nav>
+
+  <aside id="detail" class="panel detail" hidden aria-live="polite"></aside>
+  <aside id="guide" class="panel detail guide" hidden></aside>
+
+  <div class="scale" id="scale"><span id="scale-bar"></span><b id="scale-text"></b></div>
+  <div id="hint" class="hint">Drag to rotate · scroll to zoom · <kbd>←</kbd> <kbd>→</kbd> events</div>
+
+  <div id="tip" class="tip" hidden></div>
+  <div id="search" class="search" hidden></div>
+
+  <section id="scene" class="panel scene" hidden aria-live="polite"></section>
+  <footer id="timeline" class="panel timeline"></footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
