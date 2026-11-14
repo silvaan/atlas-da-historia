@@ -1,4 +1,8 @@
 # History Atlas
+
+> **New:** the new version is the [time slice](#prototype-time-slice-slicehtml) (`slice.html`): a map of the year on top and the world's regions through time below, with trails to study a topic step by step.
+> The previous version, only the 3D atlas, is on the branch [`legacy-3d`](../../tree/legacy-3d).
+
 A 3D world map (three.js), with a zoom that goes from the whole planet down to the people in a city's streets.
 It is the base of the map. The historical network layer (events linked across places and periods) does not exist yet.
 
@@ -83,3 +87,29 @@ The globe uses a 4096 × 2048 color texture and, separately, a smoothed 720 × 3
 - **Round map** (`src/world/bend.js`): in the top-down, tilted and isometric views, the flat world is bent over a sphere around the center of the view (in the shader of every map material). Near the center nothing changes; far away, the ground drops behind the horizon, and zooming out turns the map into a globe. Clicks and labels use the same bend.
 - **Toy armies**: each state on the period map has up to 4 armies (little figures in its color) marching inside its territory; the great powers outside the Atlantic world (`WORLD_CIVS`) get a pawn and two armies; each war has two armies advancing on each other while it lasts.
 - **Sizes**: monuments and pieces have a fixed size on screen (about 40 px) from afar and only reach map size up close; the main monuments are larger.
+
+## Prototype: time slice (`slice.html`)
+
+Another way to look at the same history, being tested. It opens at `http://localhost:5173/slice.html` with `npm run dev`. It covers 1400 to 1900.
+
+- **On top, the map of the year** (`src/slice/map.js`): a flat world map on a 2D canvas, Equal Earth projection, with the borders of the nearest year among 12 maps (1400, 1492, 1530, 1600, 1650, 1700, 1715, 1783, 1800, 1815, 1880, 1900).
+- **Below, the slice** (`src/slice/cut.js`): time runs to the right, each region is a row whose height is its share of the world population, and each state is a band inside the row. The Atlas events are dots, and the links between them are curves.
+- **On the right, "Meanwhile"** (`src/slice/main.js`): what there was in each region in the chosen year. When you choose an event, it becomes the event's card, with causes and consequences.
+- **Address**: the search box takes "place year" ("Japan 1600"). The page keeps `#1500`, `#1808/ev/court`, `#1700/p/pt` or `#1650/r/la`.
+- **Controls**: dragging in the slice changes the year; the wheel zooms in time; clicking a region's name opens its row; ← and → move one year (Shift: ten); PageUp and PageDown go from event to event; Space plays; `/` goes to the search.
+- **Performance**: the map and the slice are kept as finished images, and only the top layer (year line, dots, titles) is redrawn each frame. Drawing is done on the CPU by default; `slice.html?gpu` uses the accelerated canvas.
+
+### Trails (`src/slice/trails.js`)
+
+A topic told in stops, to study step by step. It opens from the "Trails" button, from the search ("minas" or "inconfid") or from the "Follow the trail" button on an event card. The URL keeps the stop: `#trail/minasconspiracy/5`.
+
+- Each stop has a year, a place, a map distance (`close`, `region`, `continent`, `world`), a title and a text; it can highlight a power on the map and in the slice (`look`) and bring a question to think about (`q`). Stops are grouped into acts (before, the event, after).
+- When you change stop, the year runs to the date, the map flies to the place (rising halfway when the distance is large) and the slice shows the stop in its region's row. Stops at the same place become a single marker; the previous and next stops, if they are off screen, appear as arrows at the edge of the map.
+- The panel shows the acts with numbered stops, the text, the question and what was happening at the same time in other regions. ← and → (or PageUp and PageDown) move through the stops, ▶ advances on its own every 12 seconds, Esc exits. The browser remembers which stops have been seen.
+- The Minas Conspiracy (Inconfidência Mineira) trail (15 stops, from 1695 to 1889) is written by hand. The others come from the Atlas guides: the guide's steps become the middle act, and the links in the network give the "before" and the "after".
+
+Data:
+
+- Historical borders: [historical-basemaps](https://github.com/aourednik/historical-basemaps) (GPL-3.0). `node scripts/build-slice.mjs` downloads the originals to `.cache/basemaps` and builds `public/slice/`. The basemap has known errors; some are fixed in `FIX`, in `src/slice/powers.js`.
+- Population by region (`src/slice/pop.js`): Biraben's series, **transcribed from memory and not yet checked against the original table**.
+- State bands (`BANDS` in `src/slice/powers.js`): **weights estimated by hand, only to give the prototype its shape**. The real version should compute them by crossing the borders with a population grid (HYDE).

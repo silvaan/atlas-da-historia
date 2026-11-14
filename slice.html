@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Time Slice · History Atlas</title>
+</head>
+<body>
+  <header id="bar">
+    <a class="brand" href="./" title="Back to the 3D Atlas">History <em>Atlas</em></a>
+    <span class="tag">prototype · 1400–1900</span>
+    <div id="addr">
+      <input id="q" type="search" placeholder="Place and year: Japan 1600, Brazil 1808, Cabral…" autocomplete="off" spellcheck="false" aria-label="Go to a place and a year">
+      <ul id="sug" hidden></ul>
+    </div>
+    <button id="btrails" title="Study a topic step by step">Trails</button>
+    <div class="ctl">
+      <button id="prev" title="Previous event (PageUp)" aria-label="Previous event">‹</button>
+      <button id="play" title="Play time (Space)" aria-label="Play">▶</button>
+      <button id="next" title="Next event (PageDown)" aria-label="Next event">›</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="today"> present-day borders</label>
+    <button id="theme" title="Change the style"></button>
+  </header>
+  <main id="stage">
+    <section id="mapwrap">
+      <canvas id="map"></canvas>
+      <div id="now"><output id="yr">1500</output><span id="cap"></span></div>
+      <div id="legend">
+        <span><i style="background:#3F6FB5"></i>Government</span><span><i style="background:#C98A1B"></i>Economy</span><span><i style="background:#C2413A"></i>Conflict</span>
+        <span><i style="background:#7A5BA6"></i>Ideas</span><span><i style="background:#2F8A6A"></i>Peoples</span>
+        <span class="sep"><b class="cause">→</b> cause</span><span><b class="effect">→</b> consequence</span>
+      </div>
+      <div id="hint">in the slice: drag to change the year · wheel zooms in time · ← → one year</div>
+    </section>
+    <aside id="side"></aside>
+    <section id="cutwrap"><div id="split" title="Drag to change the split between the map and the slice"></div><canvas id="cut"></canvas></section>
+  </main>
+  <div id="tip" hidden></div>
+  <script type="module" src="/src/slice/main.js"></script>
+</body>
+</html>
